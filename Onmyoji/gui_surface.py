@@ -4,7 +4,7 @@ the surface of onmyoji_assist.py
 
 import sys
 import time
-import onmyoji_assistant
+import onmyoji_assistant as oa
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, \
                             QLineEdit, QPushButton, \
                             QHBoxLayout, QVBoxLayout, QLCDNumber,\
@@ -22,9 +22,9 @@ class Click(QThread):
 
     def run(self):
         """Control game client"""
-        onmyoji_assistant.shua_game(shua_times=onmyoji_assistant.calculate_times(int(HP_LINE.text())),\
+        oa.shua_game(shua_times=oa.calculate_times(int(HP_LINE.text())),\
                         wait_time=int(FIGHT_TIME_LINE.text()))
-        onmyoji_assistant.colse_game()
+        oa.colse_game()
 
 class Timer(QThread):
     """
@@ -35,12 +35,12 @@ class Timer(QThread):
         """Control display remaining time"""
         fight_time = int(FIGHT_TIME_LINE.text())
         hp_num = int(HP_LINE.text())
-        need_time = onmyoji_assistant.calculate_times(health=hp_num)*fight_time
+        need_time = oa.calculate_times(health=hp_num)*(fight_time+18)
         LCD_NUMBER.display(need_time)
         display_time = need_time
         for _ in range(need_time):
             self.sleep_one()
-            if (display_time % fight_time) == 0:# or (display_time == fight_time and (int(HP_LINE.text()) > 6)):
+            if (display_time % (fight_time+18)) == 0:# or (display_time == fight_time and (int(HP_LINE.text()) > 6)):
                 hp_num -= 6
                 HP_LINE.setText(str(hp_num))
             display_time -= 1
