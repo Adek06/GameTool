@@ -39,3 +39,13 @@ def shua_game(shua_times, wait_time):
     click(pos=(1233, 591), times=30)
     time.sleep(int(wait_time))
     return shua_game(shua_times-1, wait_time)
+
+
+def client_pos():
+    '''
+       help to find click pos
+    '''
+    handle = win32gui.FindWindow(None, '阴阳师-网易游戏')
+    pos = win32gui.GetCursorPos()
+    client_pos = win32gui.ScreenToClient(handle, pos)
+    return client_pos
